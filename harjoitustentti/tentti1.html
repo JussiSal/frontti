@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id='root'></div>
+ 
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        function Coctail() {
+            const [input, setInput] = React.useState('');
+            const [coctail, setCoctail] = React.useState({name: '', inst: '',pic: ''});
+
+            const inputChanged = (event) => {setInput(event.target.value);};
+
+            const src = () => {
+                fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + input)
+                .then(response => response.json())
+                .then(rJson => {
+                    setCoctail({name: rJson.drinks[0].strDrink, inst: rJson.drinks[0].strInstructions, pic: rJson.drinks[0].strDrinkThumb})
+                });
+            }
+
+            return (
+                <div>
+                    <input type="text" value={input} onChange={inputChanged}/>
+                    <button onClick={src}>Fetch</button>
+                    <p>Name: {coctail.name}</p>
+                    <p>Instructions: {coctail.inst}</p>
+                    <img src={coctail.pic}/>
+                </div>
+            );
+        }
+        ReactDOM.render(<Coctail/>,   document.getElementById('root'));
+    </script>
+  </body>
+</html>

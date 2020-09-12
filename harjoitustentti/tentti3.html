@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id='root'></div>
+ 
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        function PasswordCheck() {
+
+            const [passwords, setPasswords] = React.useState({password1: '', password2: ''});
+            const [text, setText] = React.useState('');
+
+            const inputChanged = (event) => {setPasswords({...passwords, [event.target.name]: event.target.value});};
+
+            const check = () => {
+                if (passwords.password1 === passwords.password2) {
+                    setText('Status OK! Passwords match');
+                } else {
+                    setText('Error! Passwords does not match');
+                }
+            }
+
+            //Jahas, jotenkin pitäisi vielä saada tekstikentän arvot piilotettua käyttäjältä, mutta ei kyllä ilman googlea nyt onnistu
+            return (
+                <div>
+                    <p>{text}</p>
+                    <label>Password:</label>
+                    <input type="text" show="hidden" name="password1" value={passwords.password1} onChange={inputChanged}/><br></br>
+                    <label>Password check:</label>
+                    <input type="text" name="password2" value={passwords.password2} onChange={inputChanged}/><br></br>
+                    <button onClick={check}>Submit</button>
+                </div>
+            )
+        }
+        ReactDOM.render(<PasswordCheck/>,   document.getElementById('root'));
+    </script>
+  </body>
+</html>

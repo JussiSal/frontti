@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Trivia</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id='root'></div>
+ 
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+      function TriviaAPI() {
+        
+        const [trivia, setTrivia] = React.useState('');
+
+        React.useEffect(() => {
+            fetch('https://opentdb.com/api.php?amount=1')
+            .then(response => response.json())
+            .then(responseJson => {
+                setTrivia(responseJson.results[0].question)
+            });
+        }, []);
+
+        const uusiKysymys = () => {
+          fetch('https://opentdb.com/api.php?amount=1')
+            .then(response => response.json())
+            .then(responseJson => {
+                setTrivia(responseJson.results[0].question)
+            });
+        }
+
+        return (
+            <div>
+            <p>{trivia}</p>
+            <button onClick={() => uusiKysymys()}>New question</button>
+            </div>
+        );
+      };
+      ReactDOM.render(<TriviaAPI/>, document.getElementById('root'));
+    </script>
+  </body>
+</html>
